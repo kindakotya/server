@@ -1,27 +1,21 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    cmd.sh                                             :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: gmayweat <gmayweat@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/02/13 04:35:58 by gmayweat          #+#    #+#              #
-#    Updated: 2021/02/14 22:52:21 by gmayweat         ###   ########.fr        #
+#    Created: 2021/02/13 04:36:02 by gmayweat          #+#    #+#              #
+#    Updated: 2021/02/14 20:41:12 by gmayweat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-all:
-	docker build -t server .
-	docker run -it --name meow -p 80:80 -p 443:443 server
-	#docker exec -it meow /bin/sh
+service nginx start
+service mysql start
+service php7.3-fpm start
 
-clean:
-	docker rm -f $$(docker ps -qa) | echo "fail"
-
-di:
-	docker rmi -f $$(docker images -q)
-
-fclean: clean
-	docker rmi -f $$(docker images -q)
-
-re: clean all
+echo "CREATE DATABASE wordpress;"| mysql -u root --skip-password
+echo "GRANT ALL PRIVILEGES ON wordpress.* TO 'root'@'localhost' WITH GRANT OPTION;"| mysql -u root --skip-password
+echo "FLUSH PRIVILEGES;"| mysql -u root --skip-password
+echo "update mysql.user set plugin='' where user='root';"| mysql -u root --skip-password
+bash
