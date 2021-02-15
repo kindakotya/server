@@ -6,7 +6,7 @@
 #    By: gmayweat <gmayweat@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/13 04:35:48 by gmayweat          #+#    #+#              #
-#    Updated: 2021/02/15 01:21:28 by gmayweat         ###   ########.fr        #
+#    Updated: 2021/02/15 17:57:55 by gmayweat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,8 +37,9 @@ COPY ./srcs/wp-config.php /var/www/html
 COPY ./srcs/default /etc/nginx/sites-available
 COPY ./srcs/config.inc.php phpmyadmin
 COPY ./srcs/autoindex_switch.sh .
-RUN chown -R www-data:www-data *
+#RUN chown -R www-data:www-data *
 RUN chmod -R 755 /var/www/*
 COPY ./srcs/cmd.sh .
+EXPOSE 80 443
 RUN chmod 755 ./cmd.sh
 CMD ./cmd.sh
